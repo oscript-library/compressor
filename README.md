@@ -1,0 +1,162 @@
+# oscript-compressor
+
+Библиотека сжатия данных для OneScript, включающая алгоритмы **LZ4**, **Snappy**, **Zstd**, **Brotli**, **GZip**, **ZLib** и **Deflate**. 
+
+Реализовано с использованием .NET библиотек [EasyCompressor](https://github.com/mjebrahimi/EasyCompressor/) и [BrotliSharpLib](https://github.com/master131/BrotliSharpLib).
+
+## Использование
+
+[Описание программного интерфейса](docs/README.md)
+
+``` bsl
+Компрессор = Новый GZipКомпрессор();
+
+///////////////////////////////////////////////////////////////////////
+// Примеры упаковки данных
+
+// 1. Сжимаем двоичные данные
+УпакованныеДвоичныеДанные = Компрессор.Упаковать(ДвоичныеДанные);
+
+// 2. Сжимаем двоичные данные в исходящий поток
+Компрессор.Упаковать(ДвоичныеДанные, ИсходящийПоток);
+
+// 3. Читаем входящий поток и сжимаем в исходящий поток
+Компрессор.Упаковать(ВходящийПоток, ИсходящийПоток);
+
+// 4. Читаем входящий поток и возвращаем сжатые двоичные данные 
+УпакованныеДвоичныеДанные = Компрессор.Упаковать(ВходящийПоток);
+
+///////////////////////////////////////////////////////////////////////
+// Примеры распаковки данных
+
+// 5. Распаковываем двоичные данные
+РаспакованныеДвоичныеДанные = Компрессор.Распаковать(ДвоичныеДанные);
+
+// 6. Распаковываем двоичные данные в исходящий поток
+Компрессор.Распаковать(ДвоичныеДанные, ИсходящийПоток);
+
+// 7. Читаем входящий поток и возвращаем распакованные двоичные данные
+РаспакованныеДвоичныеДанные = Компрессор.Распаковать(ВходящийПоток);
+
+// 8. Читаем входящий поток и распаковывем в исходящий поток
+Компрессор.Распаковать(ВходящийПоток, ИсходящийПоток);
+```
+
+## Совместимость
+
+<table>
+  <thead>
+    <tr>
+      <th rowspan="2">Алгоритм</th>
+      <th colspan="2">Windows</th>
+      <th colspan="2">Linux</th>
+    </tr>
+    <tr>
+      <th>OneScript 1.9</th>
+      <th>OneScript 2.0</th>
+      <th>OneScript 1.9</th>
+      <th>OneScript 2.0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><b>GZip</b></td>
+      <td align="center">✅</td>
+      <td align="center">✅</td>
+      <td align="center">✅</td>
+      <td align="center">✅</td>
+    </tr>
+    <tr>
+      <td><b>Deflate</b></td>
+      <td align="center">✅</td>
+      <td align="center">✅</td>
+      <td align="center">✅</td>
+      <td align="center">✅</td>
+    </tr>
+    <tr>
+      <td><b>Brotli</b></td>
+      <td align="center">✅</td>
+      <td align="center">✅</td>
+      <td align="center">✅</td>
+      <td align="center">✅</td>
+    </tr>
+    <tr>
+      <td><b>LZ4</b></td>
+      <td align="center">✅</td>
+      <td align="center">✅</td>
+      <td align="center">✅</td>
+      <td align="center">✅</td>
+    </tr>
+    <tr>
+      <td><b>Zlib</b></td>
+      <td align="center">❌</td>
+      <td align="center">✅</td>
+      <td align="center">❌</td>
+      <td align="center">✅</td>
+    </tr>
+    <tr>
+      <td><b>Zstd</b></td>
+      <td align="center">✅</td>
+      <td align="center">✅</td>
+      <td align="center">✅</td>
+      <td align="center">✅</td>
+    </tr>
+    <tr>
+      <td><b>Snappy</b></td>
+      <td align="center">✅</td>
+      <td align="center">✅</td>
+      <td align="center">✅</td>
+      <td align="center">✅</td>
+    </tr>
+  </tbody>
+</table>
+
+## Библиотеки алгоритмов
+
+<table>
+  <thead>
+    <tr>
+      <th>Алгоритм</th>
+      <th>OneScript 1.9</th>
+      <th>OneScript 2.0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><b>GZip</b></td>
+      <td colspan="2" align="center"><a href="https://learn.microsoft.com/ru-ru/dotnet/api/system.io.compression" target="_blank">System.IO.Compression</a></td>
+    </tr>
+    <tr>
+      <td><b>Deflate</b></td>
+      <td colspan="2" align="center"><a href="https://learn.microsoft.com/ru-ru/dotnet/api/system.io.compression" target="_blank">System.IO.Compression</a></td>
+    </tr>
+    <tr>
+      <td><b>Brotli</b></td>
+      <td align="center"><a href="https://github.com/master131/BrotliSharpLib" target="_blank">BrotliSharpLib</a></td>
+      <td align="center"><a href="https://learn.microsoft.com/ru-ru/dotnet/api/system.io.compression" target="_blank">System.IO.Compression</a></td>
+    </tr>
+    <tr>
+      <td><b>LZ4</b></td>
+      <td colspan="2" align="center"><a href="https://github.com/MiloszKrajewski/K4os.Compression.LZ4" target="_blank">K4os.Compression.LZ4</a></td>
+    </tr>
+    <tr>
+      <td><b>Zlib</b></td>
+      <td align="center">❌</td>
+      <td align="center"><a href="https://learn.microsoft.com/ru-ru/dotnet/api/system.io.compression" target="_blank">System.IO.Compression</a></td>
+    </tr>
+    <tr>
+      <td><b>Zstd</b></td>
+      <td colspan="2" align="center"><a href="https://github.com/oleg-st/ZstdSharp" target="_blank">ZstdSharp</a></td>
+    </tr>
+    <tr>
+      <td><b>Snappy</b></td>
+      <td colspan="2" align="center"><a href="https://github.com/brantburnett/Snappier" target="_blank">Snappier</a></td>
+    </tr>
+  </tbody>
+</table>
+
+## Сборка
+
+```
+oscript build.os
+```

@@ -1,43 +1,54 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-	<TargetFrameworks>net48;net6.0;</TargetFrameworks>
-	<LangVersion>10.0</LangVersion>
-	<PackageProjectUrl>https://github.com/Stivo182/oscript-compressor</PackageProjectUrl>
-	<RepositoryUrl>https://github.com/Stivo182/oscript-compressor</RepositoryUrl>
-	<Title>OscriptCompressor</Title>
-	<Company>Stivo182</Company>
-	<Copyright>Stivo182</Copyright>
-	<Version>1.0.0</Version>
-	<AssemblyVersion>1.0.0</AssemblyVersion>
-    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net48;net6.0;</TargetFrameworks>
+		<LangVersion>10.0</LangVersion>
+		<PackageProjectUrl>https://github.com/Stivo182/oscript-compressor</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/Stivo182/oscript-compressor</RepositoryUrl>
+		<Title>OscriptCompressor</Title>
+		<Company>Stivo182</Company>
+		<Copyright>Stivo182</Copyright>
+		<Version>1.0.0</Version>
+		<AssemblyVersion>1.0.0</AssemblyVersion>
+		<AssemblyName>1script_compressor</AssemblyName>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="EasyCompressor" Version="2.0.2" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="EasyCompressor" Version="2.0.2" />
+		<PackageReference Include="EasyCompressor.LZ4" Version="2.0.2" />
+		<PackageReference Include="EasyCompressor.Snappier" Version="2.0.2" />
+		<PackageReference Include="EasyCompressor.ZstdSharp" Version="2.0.2" />
+	</ItemGroup>
 	
-  <ItemGroup Condition="'$(TargetFramework)'=='net6.0'">
-    <Reference Include="OneScript.Core">
-      <HintPath>lib\netcore\\OneScript.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="OneScript.StandardLibrary">
-      <HintPath>lib\netcore\OneScript.StandardLibrary.dll</HintPath>
-    </Reference>
-	<Reference Include="OneScript.Language">
-      <HintPath>lib\netcore\OneScript.Language.dll</HintPath>
-    </Reference>
-	  <Reference Include="ScriptEngine">
-		  <HintPath>lib\netcore\ScriptEngine.dll</HintPath>
-	  </Reference>
-	  <Reference Include="ScriptEngine.HostedScript">
-		  <HintPath>lib\netcore\ScriptEngine.HostedScript.dll</HintPath>
-	  </Reference>
-  </ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)'=='net6.0'">
+		<Reference Include="OneScript.Core">
+			<HintPath>dependencies\netcore\\OneScript.Core.dll</HintPath>
+		</Reference>
+		<Reference Include="OneScript.StandardLibrary">
+			<HintPath>dependencies\netcore\OneScript.StandardLibrary.dll</HintPath>
+		</Reference>
+		<Reference Include="OneScript.Language">
+			<HintPath>dependencies\netcore\OneScript.Language.dll</HintPath>
+		</Reference>
+		<Reference Include="ScriptEngine">
+			<HintPath>dependencies\netcore\ScriptEngine.dll</HintPath>
+		</Reference>
+		<Reference Include="ScriptEngine.HostedScript">
+			<HintPath>dependencies\netcore\ScriptEngine.HostedScript.dll</HintPath>
+		</Reference>
+	</ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)'=='net48'">
-    <PackageReference Include="OneScript.StandardLibrary" Version="1.9.2" />
-    <PackageReference Include="EasyCompressor.BrotliNET" Version="2.0.2" />
-  </ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)'=='net48'">
+		<PackageReference Include="BrotliSharpLib" Version="0.3.3" />
+		<PackageReference Include="OneScript.StandardLibrary" Version="1.9.2" />
+	</ItemGroup>
 	
+	<ItemGroup Condition="'$(TargetFramework)'=='net48'">
+		<NativeLibs Include="$(MSBuildThisFileDirectory)\runtimes\**\*.*" />
+		<None Include="@(NativeLibs)">
+			<Link>runtimes\%(RecursiveDir)%(FileName)%(Extension)</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>	
 </Project>

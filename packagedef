@@ -3,7 +3,7 @@
     .Версия("1.0.0")
     .Автор("Dmitry Ivanov")
     .АдресАвтора("https://github.com/Stivo182")
-    .Описание("")
+    .Описание("Библиотека сжатия данных, включающая алгоритмы LZ4, Snappy, Zstd, Brotli, GZip, ZLib и Deflate")
     .ВерсияСреды("1.9.2")
     .ВключитьФайл("Components")
     .ВключитьФайл("package-loader.os")

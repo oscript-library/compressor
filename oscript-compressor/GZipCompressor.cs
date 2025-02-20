@@ -2,9 +2,7 @@
 using ScriptEngine.Machine;
 using ScriptEngine.Machine.Contexts;
 
-#if NET48
-using ScriptEngine.HostedScript.Library.Binary;
-#else
+#if NET6_0
 using OneScript.Contexts;
 #endif
 

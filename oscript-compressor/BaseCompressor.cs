@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Reflection;
 using EasyCompressor;
 using ScriptEngine.Machine;
 using ScriptEngine.Machine.Contexts;
@@ -17,6 +19,11 @@ namespace OscriptCompressor
     {
         protected EasyCompressor.ICompressor _compressor;
 
+        static BaseCompressor()
+        {
+            AppDomain.CurrentDomain.AssemblyResolve += AssemblyResolve;
+        }
+
         /// <summary>
         /// Упаковывает данные.
         /// </summary>
@@ -30,11 +37,11 @@ namespace OscriptCompressor
 
             if (dataObj is BinaryDataContext binaryData)
             {
-                return ProcessBytes(binaryData.Buffer, outputStream, true);
+                return BaseCompressBuffer(binaryData, outputStream);
             }
             else if (dataObj is IStreamWrapper inputStreamWraper)
             {
-                return ProcessStream(inputStreamWraper.GetUnderlyingStream(), outputStream, true);
+                return BaseCompressStream(inputStreamWraper, outputStream);
             }
             else
             {
@@ -55,11 +62,11 @@ namespace OscriptCompressor
 
             if (dataObj is BinaryDataContext binaryData)
             {
-                return ProcessBytes(binaryData.Buffer, outputStream, false);
+                return BaseDecompressBuffer(binaryData, outputStream);
             }
             else if (dataObj is IStreamWrapper inputStreamWraper)
             {
-                return ProcessStream(inputStreamWraper.GetUnderlyingStream(), outputStream, false);
+                return BaseDecompressStream(inputStreamWraper, outputStream);
             }
             else
             {
@@ -67,70 +74,130 @@ namespace OscriptCompressor
             }
         }
 
-        private IValue ProcessBytes(byte[] bytes, IValue output, bool isCompress)
+        private IValue BaseCompressBuffer(BinaryDataContext binaryData, IValue outputStream = null)
         {
-            if (output is null)
+            if (outputStream is null)
             {
-                byte[] compressedData;
-
-                if (isCompress)
-                    compressedData = _compressor.Compress(bytes);
-                else
-                    compressedData = _compressor.Decompress(bytes);
-
-                return new BinaryDataContext(compressedData);
+                return new BinaryDataContext(CompressBuffer(binaryData.Buffer));
             }
-            else if (output.AsObject() is IStreamWrapper outputStreamWraper)
+            else if (outputStream.AsObject() is IStreamWrapper outputStreamWraper)
             {
-                using var inputStream = new MemoryStream(bytes);
-                var outputStream = outputStreamWraper.GetUnderlyingStream();
-
-                if (isCompress)
-                    _compressor.Compress(inputStream, outputStream);
-                else
-                    _compressor.Decompress(inputStream, outputStream);
-
-                return null;
+                CompressBufferIntoStream(binaryData.Buffer, outputStreamWraper.GetUnderlyingStream());
             }
             else
             {
-                throw RuntimeException.InvalidArgumentType("output");
+                throw RuntimeException.InvalidArgumentType("data");
             }
+            return null;
         }
 
-        private IValue ProcessStream(Stream inputStream, IValue output, bool isCompress)
+        private IValue BaseCompressStream(IStreamWrapper inputStream, IValue outputStream = null)
         {
-            Stream outputStream;
-
-            if (output is null)
+            if (outputStream is null)
             {
-                outputStream = new MemoryStream();
+                return new BinaryDataContext(CompressStreamIntoBuffer(inputStream.GetUnderlyingStream()));
             }
-            else if (output.AsObject() is IStreamWrapper outputStreamWraper)
+            else if (outputStream.AsObject() is IStreamWrapper outputStreamWraper)
             {
-                outputStream = outputStreamWraper.GetUnderlyingStream();
+                CompressStream(inputStream.GetUnderlyingStream(), outputStreamWraper.GetUnderlyingStream());
             }
             else
             {
-                throw RuntimeException.InvalidArgumentType("output");
+                throw RuntimeException.InvalidArgumentType("data");
             }
+            return null;
+        }
 
-            if (isCompress)
-                _compressor.Compress(inputStream, outputStream);
+        private IValue BaseDecompressBuffer(BinaryDataContext binaryData, IValue outputStream = null)
+        {
+            if (outputStream is null)
+            {
+                return new BinaryDataContext(DecompressBuffer(binaryData.Buffer));
+            }
+            else if (outputStream.AsObject() is IStreamWrapper outputStreamWraper)
+            {
+                DecompressBufferIntoStream(binaryData.Buffer, outputStreamWraper.GetUnderlyingStream());
+            }
             else
-                _compressor.Decompress(inputStream, outputStream);
+            {
+                throw RuntimeException.InvalidArgumentType("data");
+            }
+            return null;
+        }
 
-            if (output is null)
+        private IValue BaseDecompressStream(IStreamWrapper inputStream, IValue outputStream = null)
+        {
+            if (outputStream is null)
             {
-                outputStream.Seek(0, SeekOrigin.Begin);
-                var bytes = outputStream.ReadAllBytes();
-                outputStream.Dispose();
-                return new BinaryDataContext(bytes);
+                return new BinaryDataContext(DecompressStreamIntoBuffer(inputStream.GetUnderlyingStream()));
+            }
+            else if (outputStream.AsObject() is IStreamWrapper outputStreamWraper)
+            {
+                DecompressStream(inputStream.GetUnderlyingStream(), outputStreamWraper.GetUnderlyingStream());
             }
             else
             {
-                return null;
+                throw RuntimeException.InvalidArgumentType("data");
             }
+            return null;
+        }
+
+        protected virtual byte[] CompressBuffer(byte[] buffer)
+        {
+            return _compressor.Compress(buffer);
+        }
+
+        protected virtual void CompressBufferIntoStream(byte[] buffer, Stream outputStream)
+        {
+            using var inputStream = new MemoryStream(buffer);
+            _compressor.Compress(inputStream, outputStream);
+        }
+
+        protected virtual byte[] CompressStreamIntoBuffer(Stream inputStream)
+        {
+            using var outputStream = new MemoryStream();
+            _compressor.Compress(inputStream, outputStream);
+
+            return outputStream.GetTrimmedBuffer();
+        }
+
+        protected virtual void CompressStream(Stream inputStream, Stream outputStream)
+        {
+            _compressor.Compress(inputStream, outputStream);
+        }
+
+        protected virtual byte[] DecompressBuffer(byte[] buffer)
+        {
+            return _compressor.Decompress(buffer);
+        }
+
+        protected virtual void DecompressBufferIntoStream(byte[] buffer, Stream outputStream)
+        {
+            using var inputStream = new MemoryStream(buffer);
+            _compressor.Decompress(inputStream, outputStream);
+        }
+
+        protected virtual byte[] DecompressStreamIntoBuffer(Stream inputStream)
+        {
+            using var outputStream = new MemoryStream();
+            _compressor.Decompress(inputStream, outputStream);
+
+            return outputStream.GetTrimmedBuffer();
+        }
+
+        protected virtual void DecompressStream(Stream inputStream, Stream outputStream)
+        {
+            _compressor.Decompress(inputStream, outputStream);
+        }
+
+        static Assembly AssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            string libPath = Path.Combine(
+                    Path.GetDirectoryName(assembly.Location),
+                    new AssemblyName(args.Name).Name + ".dll");
+
+            return Assembly.LoadFile(libPath);
         }
     }
 }

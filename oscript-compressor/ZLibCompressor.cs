@@ -3,7 +3,6 @@
 using System.IO.Compression;
 using ScriptEngine.Machine;
 using ScriptEngine.Machine.Contexts;
-
 using OneScript.Contexts;
 
 namespace OscriptCompressor
