@@ -129,9 +129,3 @@ opm install compressor
     </tr>
   </tbody>
 </table>
-
-## Сборка
-
-```
-oscript build.os
-```

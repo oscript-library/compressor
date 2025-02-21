@@ -39,7 +39,7 @@ jobs:
         run: opm install ${{ env.additional_oscript_packages }}
 
       - name: Сборка пакета
-        run: oscript build.os
+        run: opm build
 
       - name: Вычисление имени пакета
         shell: bash

@@ -47,7 +47,7 @@ jobs:
           opm install 1commands
 
       - name: Сборка пакета
-        run: oscript build.os
+        run: opm build
 
       - name: Заливка артефактов
         uses: actions/upload-artifact@v4
