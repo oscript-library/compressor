@@ -89,9 +89,9 @@
     </tr>
     <tr>
       <td><b>Zlib</b></td>
-      <td align="center">❌</td>
       <td align="center">✅</td>
-      <td align="center">❌</td>
+      <td align="center">✅</td>
+      <td align="center">✅</td>
       <td align="center">✅</td>
     </tr>
     <tr>
@@ -141,7 +141,7 @@
     </tr>
     <tr>
       <td><b>Zlib</b></td>
-      <td align="center">❌</td>
+      <td align="center"><a href="https://github.com/haf/DotNetZip.Semverd" target="_blank">DotNetZip</a></td>
       <td align="center"><a href="https://learn.microsoft.com/ru-ru/dotnet/api/system.io.compression" target="_blank">System.IO.Compression</a></td>
     </tr>
     <tr>
