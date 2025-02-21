@@ -4,12 +4,13 @@ on:
   push:
   pull_request:
 
+env:
+  TEST_SCRIPT_PATH: './tasks/test.os'
+  ADDITIONAL_OSCRIPT_PACKAGES: '1commands'
+
 jobs:
   build:
     runs-on: ${{ matrix.os }}
-    env:
-      test_script_path: './tasks/test.os'
-      additional_oscript_packages: '1commands'
     strategy:
       fail-fast: false
       matrix:
@@ -36,7 +37,7 @@ jobs:
           opm install -l --dev
       
       - name: Установка дополнительных пакетов
-        run: opm install ${{ env.additional_oscript_packages }}
+        run: opm install ${{ env.ADDITIONAL_OSCRIPT_PACKAGES }}
 
       - name: Сборка пакета
         run: opm build
@@ -53,4 +54,4 @@ jobs:
         run: opm install --dev ${{ steps.extract_package_name.outputs.name }}
         
       - name: Тестирование
-        run: oscript ${{ env.test_script_path }}
+        run: oscript ${{ env.TEST_SCRIPT_PATH }}
