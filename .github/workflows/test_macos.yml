@@ -1,0 +1,56 @@
+name: Тестирование
+
+on: 
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    env:
+      test_script_path: './tasks/test.os'
+      additional_oscript_packages: '1commands'
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest]
+        oscript_version: [stable, preview]
+        
+    steps:
+      - name: Актуализация
+        uses: actions/checkout@v4
+
+      - name: Установка .NET
+        uses: actions/setup-dotnet@v4.0.0
+        with:
+          dotnet-version: 8.x.x
+      
+      - name: Установка OneScript
+        uses: otymko/setup-onescript@v1.4
+        with:
+          version: ${{ matrix.oscript_version }}
+
+      - name: Установка зависимостей
+        run: |
+          opm install opm
+          opm install -l --dev
+      
+      - name: Установка дополнительных пакетов
+        run: opm install ${{ env.additional_oscript_packages }}
+
+      - name: Сборка пакета
+        run: oscript build.os
+
+      - name: Вычисление имени пакета
+        shell: bash
+        id: extract_package_name
+        run: |
+          set -ex
+          version=$(cat packagedef | grep ".Версия(" | sed 's|[^"]*"||' | sed -r 's/".+//' || true)
+          echo "name=compressor-$version.ospx" >> $GITHUB_OUTPUT
+          
+      - name: Установка пакета
+        run: opm install --dev ${{ steps.extract_package_name.outputs.name }}
+        
+      - name: Тестирование
+        run: oscript ${{ env.test_script_path }}
