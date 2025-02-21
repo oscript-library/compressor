@@ -4,6 +4,12 @@
 
 Реализовано с использованием .NET библиотек [EasyCompressor](https://github.com/mjebrahimi/EasyCompressor/) и [BrotliSharpLib](https://github.com/master131/BrotliSharpLib).
 
+## Установка
+
+```
+opm install compressor
+```
+
 ## Использование
 
 [Описание программного интерфейса](docs/README.md)
