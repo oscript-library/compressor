@@ -1,5 +1,6 @@
 ﻿using ScriptEngine.Machine;
 using ScriptEngine.Machine.Contexts;
+using System.IO;
 
 #if NET6_0
 using OneScript.Contexts;
@@ -29,6 +30,18 @@ namespace OscriptCompressor
         public static SnappyCompressor Constructor()
         {
             return new SnappyCompressor();
+        }
+
+        protected override byte[] CompressBuffer(byte[] buffer)
+        {
+            using var inputStream = new MemoryStream(buffer);
+            return base.CompressStreamIntoBuffer(inputStream);
+        }
+
+        protected override byte[] DecompressBuffer(byte[] buffer)
+        {
+            using var inputStream = new MemoryStream(buffer);
+            return base.DecompressStreamIntoBuffer(inputStream);
         }
     }
 }

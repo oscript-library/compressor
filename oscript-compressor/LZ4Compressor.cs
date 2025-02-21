@@ -1,6 +1,7 @@
 ﻿using ScriptEngine.Machine;
 using ScriptEngine.Machine.Contexts;
 using K4os.Compression.LZ4;
+using EasyCompressor;
 
 #if NET6_0
 using OneScript.Contexts;
@@ -26,7 +27,7 @@ namespace OscriptCompressor
         /// </summary>
         public LZ4Compressor(LZ4CompressionLevel level)
         {
-            _compressor = new EasyCompressor.LZ4Compressor((LZ4Level)level);
+            _compressor = new EasyCompressor.LZ4Compressor((LZ4Level)level, LZ4BinaryCompressionMode.StreamCompatible);
         }
 
         /// <summary>
