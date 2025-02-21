@@ -16,14 +16,7 @@ namespace OscriptCompressor
         /// <summary>
         /// Создает новый экземпляр класса SnappyCompressor.
         /// </summary>
-        public SnappyCompressor() : this(DataCompressionLevel.Fastest)
-        {
-        }
-
-        /// <summary>
-        /// Создает новый экземпляр класса SnappyCompressor.
-        /// </summary>
-        public SnappyCompressor(DataCompressionLevel level)
+        public SnappyCompressor()
         {
             _compressor = new EasyCompressor.SnappierCompressor();
         }
@@ -36,16 +29,6 @@ namespace OscriptCompressor
         public static SnappyCompressor Constructor()
         {
             return new SnappyCompressor();
-        }
-
-        /// <summary>
-        /// Создает новый экземпляр класса SnappyCompressor.
-        /// </summary>
-        /// <returns>SnappyCompressor</returns>
-        [ScriptConstructor]
-        public static SnappyCompressor Constructor(IValue level)
-        {
-            return new SnappyCompressor(ContextValuesMarshaller.ConvertParam<DataCompressionLevel>(level));
         }
     }
 }
