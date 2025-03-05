@@ -15,7 +15,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
-        oscript_version: [stable, preview]
+        oscript_version: [stable, dev]
         
     steps:
       - name: Актуализация
