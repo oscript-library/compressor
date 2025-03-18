@@ -44,11 +44,4 @@
 		<PackageReference Include="OneScript.StandardLibrary" Version="1.9.2" />
 	</ItemGroup>
 	
-	<ItemGroup Condition="'$(TargetFramework)'=='net48'">
-		<NativeLibs Include="$(MSBuildThisFileDirectory)\runtimes\**\*.*" />
-		<None Include="@(NativeLibs)">
-			<Link>runtimes\%(RecursiveDir)%(FileName)%(Extension)</Link>
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-	</ItemGroup>	
 </Project>
