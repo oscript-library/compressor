@@ -15,6 +15,7 @@ using OneScript.Exceptions;
 
 namespace OscriptCompressor
 {
+    [ContextClass("AbstractBaseCompressor")]
     public abstract class BaseCompressor : AutoContext<BaseCompressor>, ICompressor
     {
         protected EasyCompressor.ICompressor _compressor;
