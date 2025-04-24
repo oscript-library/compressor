@@ -6,7 +6,6 @@ on:
 
 env:
   TEST_SCRIPT_PATH: './tasks/test.os'
-  ADDITIONAL_OSCRIPT_PACKAGES: '1commands'
 
 jobs:
   build:
@@ -35,23 +34,9 @@ jobs:
         run: |
           opm install opm
           opm install -l --dev
-      
-      - name: Установка дополнительных пакетов
-        run: opm install ${{ env.ADDITIONAL_OSCRIPT_PACKAGES }}
 
       - name: Сборка пакета
         run: opm build
-
-      - name: Вычисление имени пакета
-        shell: bash
-        id: extract_package_name
-        run: |
-          set -ex
-          version=$(cat packagedef | grep ".Версия(" | sed 's|[^"]*"||' | sed -r 's/".+//' || true)
-          echo "name=compressor-$version.ospx" >> $GITHUB_OUTPUT
-          
-      - name: Установка пакета
-        run: opm install --dev ${{ steps.extract_package_name.outputs.name }}
         
       - name: Тестирование
         run: oscript ${{ env.TEST_SCRIPT_PATH }}

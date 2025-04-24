@@ -8,7 +8,6 @@ on:
 env:
   PACKAGE_MASK: "compressor-*.ospx"
   OSCRIPT_VERSION: "default"
-  ADDITIONAL_OSCRIPT_PACKAGES: '1commands'
 
 jobs:
   build:
@@ -45,9 +44,6 @@ jobs:
         run: |
           opm install opm
           opm install -l
-
-      - name: Установка дополнительных пакетов
-        run: opm install ${{ env.ADDITIONAL_OSCRIPT_PACKAGES }}
 
       - name: Сборка пакета
         run: opm build
