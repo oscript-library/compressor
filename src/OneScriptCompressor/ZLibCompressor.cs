@@ -11,7 +11,7 @@ using System.IO.Compression;
 using OneScript.Contexts;
 #endif
 
-namespace OscriptCompressor
+namespace OneScriptCompressor
 {
     /// <summary>
     /// Класс для упаковки/распаковки данных в ZLib.

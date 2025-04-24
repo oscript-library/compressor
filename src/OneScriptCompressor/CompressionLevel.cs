@@ -4,7 +4,7 @@ using ScriptEngine;
 using OneScript.Contexts.Enums;
 #endif
 
-namespace OscriptCompressor
+namespace OneScriptCompressor
 {
     /// <summary>
     /// Задает значения, показывающие, выделяет ли операция сжатия скорость или размер

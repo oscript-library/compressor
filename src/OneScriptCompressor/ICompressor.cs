@@ -1,6 +1,6 @@
 ﻿using ScriptEngine.Machine;
 
-namespace OscriptCompressor
+namespace OneScriptCompressor
 {
     internal interface ICompressor
     {
