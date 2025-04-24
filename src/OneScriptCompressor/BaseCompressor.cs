@@ -13,7 +13,7 @@ using OneScript.StandardLibrary.Binary;
 using OneScript.Exceptions;
 #endif
 
-namespace OscriptCompressor
+namespace OneScriptCompressor
 {
     [ContextClass("AbstractBaseCompressor")]
     public abstract class BaseCompressor : AutoContext<BaseCompressor>, ICompressor

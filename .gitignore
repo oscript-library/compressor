@@ -1,8 +1,9 @@
 /Components
 */packages
 /oscript_modules
+/out
 .vs
-obj
-*/bin/Release
-*/bin/Debug
+Release/
+Debug/
+obj/
 *.ospx

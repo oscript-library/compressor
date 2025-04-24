@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35004.147
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OscriptCompressor", "OscriptCompressor.csproj", "{F8186095-8CDA-45DD-8314-A9114437098B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OneScriptCompressor", "OneScriptCompressor.csproj", "{F8186095-8CDA-45DD-8314-A9114437098B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

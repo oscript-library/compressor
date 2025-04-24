@@ -6,7 +6,7 @@ using ScriptEngine;
 using OneScript.Contexts.Enums;
 #endif
 
-namespace OscriptCompressor
+namespace OneScriptCompressor
 {
     /// <summary>
     /// ZStandard Compression Level
