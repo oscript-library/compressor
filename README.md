@@ -1,4 +1,4 @@
-# oscript-compressor
+# compressor
 
 Библиотека сжатия данных для OneScript, включающая алгоритмы **LZ4**, **Snappy**, **Zstd**, **Brotli**, **GZip**, **ZLib** и **Deflate**. 
 
